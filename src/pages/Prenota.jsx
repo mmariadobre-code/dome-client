@@ -35,7 +35,6 @@ export default function Prenota({ supabase, session, setPage }) {
 
   useEffect(() => {
     async function load() {
-      // Pacchetto attivo
       const { data: packs } = await supabase
         .from('client_packages')
         .select('*, packages(name, session_type)')
@@ -45,7 +44,6 @@ export default function Prenota({ supabase, session, setPage }) {
         .limit(1)
       setClientPackage(packs?.[0] || null)
 
-      // Slots disponibili per la settimana
       const dal = toLocalDate(giorniSettimana[0])
       const al = toLocalDate(giorniSettimana[6])
       const { data: availability } = await supabase
@@ -57,7 +55,6 @@ export default function Prenota({ supabase, session, setPage }) {
         .order('date')
         .order('time')
 
-      // Prenotazioni già esistenti
       const { data: bookings } = await supabase
         .from('bookings')
         .select('starts_at, session_type, client_id')
@@ -65,7 +62,6 @@ export default function Prenota({ supabase, session, setPage }) {
         .gte('starts_at', `${dal}T00:00:00`)
         .lte('starts_at', `${al}T23:59:59`)
 
-      // Combina slot con prenotazioni
       const slotsConInfo = (availability || []).map(s => {
         const prenotazioniSlot = (bookings || []).filter(b => {
           const bd = new Date(b.starts_at)
@@ -99,7 +95,6 @@ export default function Prenota({ supabase, session, setPage }) {
     const startsAt = new Date(year, month-1, day, hour, minute, 0)
     const endsAt = new Date(startsAt.getTime() + 60*60*1000)
 
-    // Trova reformer libero
     const { data: reformers } = await supabase.from('reformers').select('*').eq('active', true)
     const { data: busy } = await supabase
       .from('bookings')
@@ -156,12 +151,11 @@ export default function Prenota({ supabase, session, setPage }) {
       )}
 
       {messaggio && (
-        <div style={{background:'#f0fff4',border:'0.5px solid #B5C9A0',borderRadius:'12px',padding:'14px',marginBottom:'16px',fontSize:'13px',color:'#3B6D11',textAlign:'center',fontFamily:'Cormorant Garamond,serif',fontSize:'16px'}}>
+        <div style={{background:'#f0fff4',border:'0.5px solid #B5C9A0',borderRadius:'12px',padding:'14px',marginBottom:'16px',color:'#3B6D11',textAlign:'center',fontFamily:'Cormorant Garamond,serif',fontSize:'16px'}}>
           {messaggio}
         </div>
       )}
 
-      {/* Nav settimana */}
       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'16px'}}>
         <button onClick={() => { const d=new Date(lunedi); d.setDate(d.getDate()-7); setLunedi(d) }}
           style={{background:'none',border:'0.5px solid #E8C4C4',borderRadius:'20px',padding:'4px 12px',fontSize:'12px',color:'#8C6060',cursor:'pointer'}}>←</button>
@@ -172,7 +166,6 @@ export default function Prenota({ supabase, session, setPage }) {
           style={{background:'none',border:'0.5px solid #E8C4C4',borderRadius:'20px',padding:'4px 12px',fontSize:'12px',color:'#8C6060',cursor:'pointer'}}>→</button>
       </div>
 
-      {/* Slot */}
       {orariUnici.length === 0 && (
         <div style={{textAlign:'center',padding:'3rem',color:'#B07070',fontFamily:'Cormorant Garamond,serif',fontSize:'16px',fontStyle:'italic'}}>
           Nessuno slot disponibile questa settimana
