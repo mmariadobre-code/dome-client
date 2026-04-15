@@ -153,7 +153,7 @@ export default function App() {
         {page === 'home' && <Home supabase={supabase} session={session} setPage={setPage} />}
         {page === 'pacchetti' && <Pacchetti supabase={supabase} session={session} setPage={setPage} />}
         {page === 'prenota' && <Prenota supabase={supabase} session={session} setPage={setPage} />}
-        {page === 'prenotazioni' && <LeMMiePrenotazioni supabase={supabase} session={session} />}
+        {page === 'prenotazioni' && <LeMiePrenotazioni supabase={supabase} session={session} />}
       </div>
 
       {/* Bottom nav */}
