@@ -1,0 +1,24 @@
+{
+  "name": "The DŌME Studio",
+  "short_name": "The DŌME",
+  "description": "Your reformer studio · San Lazzaro di Savena",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#EDD5CC",
+  "theme_color": "#2C1A1A",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/dome_pwa_192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/dome_pwa_512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
